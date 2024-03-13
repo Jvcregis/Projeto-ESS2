@@ -7,6 +7,31 @@ from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
+@router.get(
+    "/view/{CPF}",
+    response_model=HttpResponseModel,
+    status_code=status.HTTP_200_OK,
+    description="Visualização dos métodos de pagamento",
+    responses={
+        status.HTTP_200_OK: {
+            "model": HttpResponseModel,
+            
+        },
+        status.HTTP_201_CREATED: {
+            "model":HttpResponseModel,
+        
+        },
+        status.HTTP_400_BAD_REQUEST: {
+            "model": HttpResponseModel,
+            
+        }
+    },
+)
+def visualizar_carrinho(CPF: str) -> HttpResponseModel:
+    resultado = PaymentService.view_methods(CPF)
+    return resultado
+
+
 @router.post(
         '/inserting/cartao', 
         response_model=HttpResponseModel,
@@ -49,6 +74,8 @@ def insert_payment(pix: Pix, response: Response) -> HttpResponseModel:
     response.status_code = result.status_code
     return result 
 
+
+
 @router.post(
         '/inserting/boleto', 
         response_model=HttpResponseModel,
@@ -66,7 +93,7 @@ def insert_payment(pix: Pix, response: Response) -> HttpResponseModel:
          description="Insert a new boleto acount", 
              )
 def insert_payment(boleto: Boleto, response: Response) -> HttpResponseModel: 
-    result = PaymentService.inserting_card(boleto)
+    result = PaymentService.insertion_ticket(boleto)
     response.status_code = result.status_code
     return result 
 
@@ -81,7 +108,7 @@ def insert_payment(boleto: Boleto, response: Response) -> HttpResponseModel:
 #     return request 
 
 @router.put(
-    "update/cartao/{id}", 
+    "/update/cartao/{id}", 
     response_model=HttpResponseModel, 
     status_code=200, 
     description="Update the card payment method"
