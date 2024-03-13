@@ -3,19 +3,9 @@ from src.db.__init__ import cart_database as db
 from src.db.carrinho_database import Carrinho, Carrinhos
 from src.db.itens_database import Item
 from src.schemas.item_database_response import HTTPDatabaseResponses
-from pydantic import BaseModel
 from src.schemas.carrinho_response import HTTPCarrinhoResponses
 from src.db.itens_database import DadosItem
-
-class DadosEndereço(BaseModel):
-    rua: str
-    numero: int
-    bairro: str
-    cidade: str
-    estado: str
-    cep: str
-    pais: str
-    complemento: str | None
+from src.schemas.adressschema import DadosEndereço
 
 class Carrinho_service():
 
